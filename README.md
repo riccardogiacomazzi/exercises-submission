@@ -1,1 +1,2 @@
 # test-course
+theme: minima
