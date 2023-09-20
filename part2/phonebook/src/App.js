@@ -1,5 +1,7 @@
-// import { eventWrapper } from '@testing-library/user-event/dist/utils'
 import { useState } from 'react'
+import PersonsForm from './components/PersonsForm'
+import FilterForm from './components/FilterForm'
+import Display from './components/Display'
 
 const App = () => {
   const [persons, setPersons] = useState([                                  // "Persons Array" -> State containing the names array
@@ -14,7 +16,7 @@ const App = () => {
 
   const addEntry = (event) => {                                              // function called when the button ADD is pressed
     event.preventDefault()
-    const entryObjet = {
+    const entryObject = {
       name: newName,
       number: newNumber,
       id: persons.length +1,
@@ -23,13 +25,13 @@ const App = () => {
     if (allNames.includes(newName)) {                                       
       alert(`${newName} is already added to phonebook`)
     }
-    else {setPersons(persons.concat(entryObjet))
+    else {setPersons(persons.concat(entryObject))
       setNewName("")
       setNewNumber("")
     }
   }
 
-  const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
+  // const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 
   const handleFormName = (event) => {                                     // handle change called when typing in the form                                 
     setNewName(event.target.value)
@@ -46,35 +48,23 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-        <div>
-          filter for:
-            <input 
-              value={filter}
-              onChange={handleFormFilter}
-            />
-        </div>
-        <form onSubmit={addEntry}>
-          <div>
-            name: 
-              <input 
-                value={newName}
-                onChange={handleFormName}
-              />
-          </div>
-          <div>
-            number:
-              <input
-                value={newNumber}
-                onChange={handleFormNumber}
-              />
-          </div>
-          <div>
-            <button type="submit">add</button>
-          </div>
-      </form>
+        <FilterForm
+           filter={filter}
+           handleFormFilter={handleFormFilter}
+        />
+        <PersonsForm 
+          addEntry={addEntry} 
+          newName={newName}
+          newNumber={newNumber}
+          handleFormName={handleFormName}
+          handleFormNumber={handleFormNumber}
+        />
       <h2>Numbers</h2>
-          {/* {persons.map(person => <p key={person.id}> {person.name} {person.number} </p>)}  */}
-          {filteredPersons.map(person => <p key={person.id}> {person.name} {person.number} </p>)} 
+        <Display 
+          persons={persons}
+          filter={filter}
+        />
+          {/* {filteredPersons.map(person => <p key={person.id}> {person.name} {person.number} </p>)}  */}
 
     </div>
     
