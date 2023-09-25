@@ -1,20 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import PersonsForm from './components/PersonsForm'
 import FilterForm from './components/FilterForm'
 import Display from './components/Display'
 
 const App = () => {
-  const [persons, setPersons] = useState([                                  // "Persons Array" -> State containing the names array
-    { name: 'Arto Hellas', number: '', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) 
+  const [persons, setPersons] = useState([])
+
+  useEffect(() => {                                                       
+  axios
+    .get('http://localhost:3001/persons')
+    .then(response => {
+      setPersons(response.data)
+    })
+}, [])
+
+
+
   const [newName, setNewName] = useState('')                                // state of the inputted NAME to the Form
   const [newNumber, setNewNumber] = useState('')                            // state of the inputted NUMBER to the Form
   const [filter, setFilter] = useState('')                                  // state of the inputted text to FILTER 
 
-  const addEntry = (event) => {                                              // function called when the button ADD is pressed
+  const addEntry = (event) => {                                             // function called when the button ADD is pressed
     event.preventDefault()
     const entryObject = {
       name: newName,
@@ -31,9 +38,7 @@ const App = () => {
     }
   }
 
-  // const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
-
-  const handleFormName = (event) => {                                     // handle change called when typing in the form                                 
+  const handleFormName = (event) => {                                                                      
     setNewName(event.target.value)
   }
 
@@ -64,7 +69,6 @@ const App = () => {
           persons={persons}
           filter={filter}
         />
-          {/* {filteredPersons.map(person => <p key={person.id}> {person.name} {person.number} </p>)}  */}
 
     </div>
     
