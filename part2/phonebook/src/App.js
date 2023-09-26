@@ -1,25 +1,32 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import numberService from './services/numbers'
 import PersonsForm from './components/PersonsForm'
 import FilterForm from './components/FilterForm'
 import Display from './components/Display'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-
-  useEffect(() => {                                                       
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
-    })
-  }, [])
-
-
-
   const [newName, setNewName] = useState('')                                // state of the inputted NAME to the Form
   const [newNumber, setNewNumber] = useState('')                            // state of the inputted NUMBER to the Form
-  const [filter, setFilter] = useState('')                                  // state of the inputted text to FILTER 
+  const [filter, setFilter] = useState('') 
+
+  // useEffect(() => {                                                       
+  //   axios
+  //     .get('http://localhost:3001/persons')
+  //     .then(response => {
+  //       console.log(response.data)
+  //       setPersons(response.data)
+  //     })
+  // }, [])
+
+  useEffect(() => {                                                       
+    numberService
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   const addEntry = (event) => {                                             // function called when the button ADD is pressed
     event.preventDefault()
@@ -28,11 +35,10 @@ const App = () => {
       number: newNumber,
       id: persons.length +1,
     }
-
-    axios
-      .post('http://localhost:3001/persons', entryObject)
-      .then(response => console.log(response))
     
+    numberService                                                           // create service from ./services/numbers.js
+      .create(entryObject)
+
     const allNames = persons.map(person => person.name)                     // If Else statement for comparing the entered text against the full array of names
     if (allNames.includes(newName)) {                                       
       alert(`${newName} is already added to phonebook`)

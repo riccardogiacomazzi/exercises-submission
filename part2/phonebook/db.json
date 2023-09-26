@@ -34,6 +34,26 @@
       "name": "funziona ancora",
       "number": "343-5573355",
       "id": 7
+    },
+    {
+      "name": "telefono cassa",
+      "number": "3343-23235253235",
+      "id": 8
+    },
+    {
+      "name": "lollo baroll",
+      "number": "434-567890",
+      "id": 9
+    },
+    {
+      "name": "laralla tarallo",
+      "number": "124-55837783",
+      "id": 10
+    },
+    {
+      "name": "barollo ma noncrollo",
+      "number": "234-6767422",
+      "id": 11
     }
   ]
 }
