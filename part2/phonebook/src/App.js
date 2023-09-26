@@ -13,7 +13,7 @@ const App = () => {
     .then(response => {
       setPersons(response.data)
     })
-}, [])
+  }, [])
 
 
 
@@ -28,6 +28,11 @@ const App = () => {
       number: newNumber,
       id: persons.length +1,
     }
+
+    axios
+      .post('http://localhost:3001/persons', entryObject)
+      .then(response => console.log(response))
+    
     const allNames = persons.map(person => person.name)                     // If Else statement for comparing the entered text against the full array of names
     if (allNames.includes(newName)) {                                       
       alert(`${newName} is already added to phonebook`)
