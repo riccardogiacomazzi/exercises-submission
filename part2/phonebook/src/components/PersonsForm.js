@@ -1,25 +1,19 @@
 const PersonsForm = (props) => {
-  return(
-   <form onSubmit={props.addEntry}>
+  return (
+    <form onSubmit={props.addEntry}>
       <div>
-        name: 
-          <input 
-            value={props.newName}
-            onChange={props.handleFormName}
-          />
+        name:
+        <input value={props.newName} onChange={props.handleFormName} />
       </div>
       <div>
         number:
-          <input
-            value={props.newNumber}
-            onChange={props.handleFormNumber}
-          />
+        <input value={props.newNumber} onChange={props.handleFormNumber} />
       </div>
       <div>
         <button type="submit">add</button>
       </div>
-  </form>
-  )
-}
+    </form>
+  );
+};
 
-export default PersonsForm
+export default PersonsForm;

@@ -1,13 +1,10 @@
 const FilterForm = (props) => {
-  return(
+  return (
     <div>
       filter for:
-        <input 
-          value={props.filter}
-          onChange={props.handleFormFilter}
-        />
+      <input value={props.filter} onChange={props.handleFormFilter} />
     </div>
-  )
-}
+  );
+};
 
-export default FilterForm
+export default FilterForm;
