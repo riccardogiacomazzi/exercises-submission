@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import numberService from "./services/numbers";
-import PersonsForm from "./components/PersonsForm";
-import FilterForm from "./components/FilterForm";
-import Display from "./components/Display";
+import numberService from "./services/numbers.jsx";
+import PersonsForm from "../components/PersonsForm.jsx";
+import FilterForm from "../components/FilterForm.jsx";
+import Display from "../components/Display.jsx";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
