@@ -3,12 +3,14 @@ import numberService from "./services/numbers.jsx";
 import PersonsForm from "../components/PersonsForm.jsx";
 import FilterForm from "../components/FilterForm.jsx";
 import Display from "../components/Display.jsx";
+import Notification from "../components/Notification.jsx";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     numberService.getAll().then((response) => {
@@ -23,11 +25,7 @@ const App = () => {
 
     if (allNames.includes(newName)) {
       //If - name is already in database
-      if (
-        window.confirm(
-          `${newName} is already added to phonebook, do you want to update their number?`
-        )
-      ) {
+      if (window.confirm(`"${newName}" is already added to phonebook, do you want to update their number?`)) {
         //If - window.confirm "Ok" is selected
         const idToUpdate = persons.filter((name) => name.name === newName);
         const idToPutRequest = idToUpdate.map((id) => id.id);
@@ -40,6 +38,11 @@ const App = () => {
 
         numberService.updateNumber(idToPutRequest, updatedNumber);
         numberService.getAll().then((response) => setPersons(response.data));
+        setNotification(`The contact "${updatedNumber.name}" has been updated`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
+
         setNewName("");
         setNewNumber("");
       } else {
@@ -53,6 +56,11 @@ const App = () => {
       };
       numberService.create(entryObject);
       numberService.getAll().then((response) => setPersons(response.data));
+      setNotification(`The contact "${entryObject.name}" has been created`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+
       setNewName("");
       setNewNumber("");
     }
@@ -72,17 +80,17 @@ const App = () => {
 
   const handleClickDelete = (id) => {
     const toDeleteName = persons.filter((index) => index.id === id);
-    if (
-      window.confirm(
-        `Do you want to delete ${toDeleteName.map((index) => index.name)}?`
-      )
-    ) {
+    if (window.confirm(`Do you want to delete "${toDeleteName.map((index) => index.name)}"?`)) {
       numberService.deleteNumber(id);
       setPersons(
         persons.filter(function (deletedId) {
           return deletedId.id !== id;
         })
       );
+      setNotification(`The contact "${toDeleteName.map((index) => index.name)}" has been deleted`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
       numberService.getAll().then((response) => {});
     } else {
     } //If window.confirm is not "Ok", then nothing is done
@@ -99,12 +107,10 @@ const App = () => {
         handleFormName={handleFormName}
         handleFormNumber={handleFormNumber}
       />
+      <Notification message={notification} />
+
       <h2>Numbers</h2>
-      <Display
-        persons={persons}
-        filter={filter}
-        handleClickDelete={handleClickDelete}
-      />
+      <Display persons={persons} filter={filter} handleClickDelete={handleClickDelete} />
     </div>
   );
 };
