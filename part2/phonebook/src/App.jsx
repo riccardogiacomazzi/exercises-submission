@@ -81,7 +81,13 @@ const App = () => {
   const handleClickDelete = (id) => {
     const toDeleteName = persons.filter((index) => index.id === id);
     if (window.confirm(`Do you want to delete "${toDeleteName.map((index) => index.name)}"?`)) {
-      numberService.deleteNumber(id);
+      numberService
+        .deleteNumber(id)
+        .catch((error) =>
+          setNotification(
+            `The contact ${toDeleteName.map((index) => index.name)} has already been deleted from the phonebook`
+          )
+        );
       setPersons(
         persons.filter(function (deletedId) {
           return deletedId.id !== id;
