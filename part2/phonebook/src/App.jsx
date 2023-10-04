@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [notification, setNotification] = useState(null);
+  const [notificationStyle, setNotificationStyle] = useState("notificationSuccess");
 
   useEffect(() => {
     numberService.getAll().then((response) => {
@@ -81,13 +82,16 @@ const App = () => {
   const handleClickDelete = (id) => {
     const toDeleteName = persons.filter((index) => index.id === id);
     if (window.confirm(`Do you want to delete "${toDeleteName.map((index) => index.name)}"?`)) {
-      numberService
-        .deleteNumber(id)
-        .catch((error) =>
-          setNotification(
-            `The contact ${toDeleteName.map((index) => index.name)} has already been deleted from the phonebook`
-          )
+      numberService.deleteNumber(id).catch((error) => {
+        setNotificationStyle("notificationError");
+        setNotification(
+          `The contact ${toDeleteName.map((index) => index.name)} has already been deleted from the phonebook!`
         );
+        setTimeout(() => {
+          setNotificationStyle("notificationSuccess");
+        }, 5000);
+      });
+
       setPersons(
         persons.filter(function (deletedId) {
           return deletedId.id !== id;
@@ -113,7 +117,7 @@ const App = () => {
         handleFormName={handleFormName}
         handleFormNumber={handleFormNumber}
       />
-      <Notification message={notification} />
+      <Notification message={notification} notificationStyle={notificationStyle} />
 
       <h2>Numbers</h2>
       <Display persons={persons} filter={filter} handleClickDelete={handleClickDelete} />

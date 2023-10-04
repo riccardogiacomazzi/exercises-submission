@@ -36,9 +36,19 @@ h1 {
   font-style: italic;
 }
 
-.notification {
+.notificationSuccess {
   color: rgb(31, 160, 72);
   background: rgb(184, 216, 242);
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.notificationError {
+  color: rgb(196, 12, 12);
+  background: rgb(180, 125, 203);
   font-size: 20px;
   border-style: solid;
   border-radius: 5px;
