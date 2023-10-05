@@ -7,6 +7,7 @@ import countriesService from "./services/countries";
 const App = () => {
   const [filter, setFilter] = useState("");
   const [countries, setCountries] = useState([]);
+  const [displayCountry, setDisplayCountry] = useState([]);
 
   const handleFormFilter = (event) => {
     setFilter(event.target.value);
@@ -21,7 +22,12 @@ const App = () => {
   return (
     <div>
       <FilterForm filter={filter} handleFormFilter={handleFormFilter} />
-      <Display countries={countries} filter={filter} />
+      <Display
+        countries={countries}
+        filter={filter}
+        displayCountry={displayCountry}
+        setDisplayCountry={setDisplayCountry}
+      />
     </div>
   );
 };
