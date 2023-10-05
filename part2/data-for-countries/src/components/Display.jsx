@@ -26,23 +26,9 @@ const Display = ({ countries, filter, displayCountry, setDisplayCountry }) => {
         });
       }, []);
 
-      const languagesArray = [];
-      languagesArray.push(displayCountry.map((languages) => languages.languages).values());
-      console.log("lang array;", languagesArray.values());
-
       return (
         <div>
-          <h1>{displayCountry.map((country) => country.name.common)}</h1>
-          <p>Capital: {displayCountry.map((country) => country.capital)}</p>
-          <p>Population: {displayCountry.map((country) => country.population)}</p>
-          <p>Area: {displayCountry.map((country) => country.area)} Square KM</p>
-          <h2>Languages</h2>
-          {/* <div>{languagesArray.map((country) => country.languages)}</div> */}
-          <h2>Flag</h2>
-          <img
-            src={displayCountry.map((flag) => flag.flags.png)}
-            alt={displayCountry.map((flag) => flag.flags.alt)}
-          ></img>
+          <SingleCountryDisplay displayCountry={displayCountry} />
         </div>
       );
     } else {
