@@ -26,6 +26,8 @@ const Display = ({ countries, filter, displayCountry, setDisplayCountry }) => {
         });
       }, []);
 
+      
+
       return (
         <div>
           <SingleCountryDisplay displayCountry={displayCountry} />

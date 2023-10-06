@@ -6,7 +6,9 @@ const SingleCountryDisplay = ({ displayCountry }) => {
       <p>Population: {displayCountry.map((country) => country.population)}</p>
       <p>Area: {displayCountry.map((country) => country.area)} Square KM</p>
       <h2>Languages</h2>
-      {/* <div>{languagesArray.map((country) => country.languages)}</div> */}
+      {Object.values(displayCountry[0].languages).map((lang) => (
+        <li>{lang}</li>
+      ))}
       <h2>Flag</h2>
       <img src={displayCountry.map((flag) => flag.flags.png)} alt={displayCountry.map((flag) => flag.flags.alt)}></img>
     </div>
