@@ -2,13 +2,28 @@ import { useEffect } from "react";
 import countriesService from "../services/countries";
 import SingleCountryDisplay from "./SingleCountryDisplay";
 
-const Display = ({ countries, filter, displayCountry, setDisplayCountry }) => {
+const Display = ({
+  countries,
+  filter,
+  displayCountry,
+  setDisplayCountry,
+  buttonShow,
+
+  handleClickCountryShow,
+}) => {
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(filter.toLowerCase())
   );
 
   const namedCountries = filteredCountries.map((country) => country.name.common);
 
+  if (buttonShow === true) {
+    return (
+      <div>
+        <SingleCountryDisplay displayCountry={displayCountry} />
+      </div>
+    );
+  }
   if (filter.length === 0) {
     // 1 IF : if no text is entered in the form -> nothing is rendered
     return null;
@@ -26,8 +41,6 @@ const Display = ({ countries, filter, displayCountry, setDisplayCountry }) => {
         });
       }, []);
 
-      
-
       return (
         <div>
           <SingleCountryDisplay displayCountry={displayCountry} />
@@ -39,7 +52,10 @@ const Display = ({ countries, filter, displayCountry, setDisplayCountry }) => {
         return (
           <div>
             {filteredCountries.map((country, index) => (
-              <p key={index}>{country.name.common}</p>
+              <p key={index}>
+                {country.name.common}
+                <button onClick={() => handleClickCountryShow(country.name.common)}>show</button>
+              </p>
             ))}
           </div>
         );

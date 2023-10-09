@@ -8,9 +8,18 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [countries, setCountries] = useState([]);
   const [displayCountry, setDisplayCountry] = useState([]);
+  const [buttonShow, setButtonShow] = useState(false);
 
   const handleFormFilter = (event) => {
     setFilter(event.target.value);
+    setButtonShow(false);
+  };
+
+  const handleClickCountryShow = (countryButton) => {
+    const toDisplay = countries.filter((filter) => filter.name.common.toLowerCase() === countryButton.toLowerCase());
+    setDisplayCountry(toDisplay);
+    setButtonShow(true);
+    console.log(toDisplay);
   };
 
   useEffect(() => {
@@ -27,6 +36,8 @@ const App = () => {
         filter={filter}
         displayCountry={displayCountry}
         setDisplayCountry={setDisplayCountry}
+        handleClickCountryShow={handleClickCountryShow}
+        buttonShow={buttonShow}
       />
     </div>
   );
