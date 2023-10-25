@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import weatherService from "../services/weather";
+import WeatherCode from "./WeatherCode";
 
 const SingleCountryDisplay = ({ displayCountry }) => {
   const [currentWeather, setCurrentWeather] = useState({
     temperature: "",
     windspeed: "",
+    weathercode: "",
   });
 
   const latitude = displayCountry.map((country) => country.latlng[0]).toString();
@@ -15,8 +17,8 @@ const SingleCountryDisplay = ({ displayCountry }) => {
       setCurrentWeather({
         temperature: response.data.current_weather.temperature,
         windspeed: response.data.current_weather.windspeed,
+        weathercode: response.data.current_weather.weathercode,
       });
-      console.log("response data SCD:", response.data);
     });
   }, [displayCountry]);
 
@@ -43,6 +45,7 @@ const SingleCountryDisplay = ({ displayCountry }) => {
         <h2>Weather in {displayCountry.map((country) => country.capital)} </h2>
         <p>Temperature: {currentWeather.temperature}° Celsius</p>
         <p>Windspeed: {currentWeather.windspeed} Km/h</p>
+        <WeatherCode id={currentWeather.weathercode} />
       </div>
     );
   }

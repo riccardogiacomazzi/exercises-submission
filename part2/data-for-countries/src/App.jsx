@@ -26,6 +26,7 @@ const App = () => {
       setCountries(response.data);
     });
   }, []);
+
   return (
     <div>
       <FilterForm filter={filter} handleFormFilter={handleFormFilter} />
