@@ -1,16 +1,8 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import countriesService from "../services/countries";
 import SingleCountryDisplay from "./SingleCountryDisplay";
 
-const Display = ({
-  countries,
-  filter,
-  displayCountry,
-  setDisplayCountry,
-  buttonShow,
-
-  handleClickCountryShow,
-}) => {
+const Display = ({ countries, filter, displayCountry, setDisplayCountry, buttonShow, handleClickCountryShow }) => {
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(filter.toLowerCase())
   );

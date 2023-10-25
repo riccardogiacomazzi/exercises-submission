@@ -19,7 +19,6 @@ const App = () => {
     const toDisplay = countries.filter((filter) => filter.name.common.toLowerCase() === countryButton.toLowerCase());
     setDisplayCountry(toDisplay);
     setButtonShow(true);
-    console.log(toDisplay);
   };
 
   useEffect(() => {
@@ -27,7 +26,6 @@ const App = () => {
       setCountries(response.data);
     });
   }, []);
-
   return (
     <div>
       <FilterForm filter={filter} handleFormFilter={handleFormFilter} />
@@ -38,6 +36,7 @@ const App = () => {
         setDisplayCountry={setDisplayCountry}
         handleClickCountryShow={handleClickCountryShow}
         buttonShow={buttonShow}
+        setButtonShow={setButtonShow}
       />
     </div>
   );
