@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import Display from "./components/Display";
+import Display from "./components/Display.jsx";
 import FilterForm from "./components/FilterForm";
 import countriesService from "./services/countries";
 
