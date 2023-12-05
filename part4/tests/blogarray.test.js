@@ -58,8 +58,31 @@ describe("Total likes", () => {
       __v: 0,
     },
   ];
+
   test("of a bigger list is calculated right", () => {
     const result = listHelper.totalLikes(blogs);
     expect(result).toBe(36);
+  });
+
+  test("of a single blog is equal to its likes", () => {
+    const blogs = [
+      {
+        _id: "5a422a851b54a676234d17f7",
+        title: "React patterns",
+        author: "Michael Chan",
+        url: "https://reactpatterns.com/",
+        likes: 7,
+        __v: 0,
+      },
+    ];
+
+    const result = listHelper.totalLikes(blogs);
+    expect(result).toBe(7);
+  });
+
+  test("of an empty list is 0", () => {
+    const blogs = [];
+    const result = listHelper.totalLikes(blogs);
+    expect(result).toBe(0);
   });
 });
