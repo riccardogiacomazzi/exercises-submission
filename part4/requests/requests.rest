@@ -7,5 +7,9 @@ Content-Type: application/json
   "url": "www.maledettiiiiii.com",
   "likes": 15923
 } 
+
 ###
 GET http://localhost:3001/api/blogs HTTP/1.1
+
+### 
+DELETE http://localhost:3001/api/blogs/656f3e804d5e79a0a9a11962 HTTP/1.1
