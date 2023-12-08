@@ -71,6 +71,7 @@ test("dummy returns one", () => {
   expect(result).toBe(1);
 });
 
+//total likes test
 describe("Total likes", () => {
   test("of a bigger list is calculated right", () => {
     const result = listHelper.totalLikes(blogs);
@@ -88,6 +89,7 @@ describe("Total likes", () => {
   });
 });
 
+// most likes test
 describe("Most likes", () => {
   test("of a bigger list is calculated right ", () => {
     const result = listHelper.favoriteBlog(blogs);
@@ -98,7 +100,7 @@ describe("Most likes", () => {
     });
   });
 
-  test("of a single blog is equal to its likes ", () => {
+  test("of a single blog is equal to its likes", () => {
     const result = listHelper.favoriteBlog(singleBlog);
     expect(result).toEqual({
       title: "React patterns",
@@ -109,6 +111,31 @@ describe("Most likes", () => {
 
   test("of an empty list is 0", () => {
     const result = listHelper.favoriteBlog(emptyBlog);
+    expect(result).toBe(0);
+  });
+});
+
+// most blogs test
+
+describe("Most blogs", () => {
+  test("of a bigger list is calculated right", () => {
+    const result = listHelper.mostBlogs(blogs);
+    expect(result).toEqual({
+      author: "Robert C. Martin",
+      blogs: 3,
+    });
+  });
+
+  test("of a single author is equal to 1", () => {
+    const result = listHelper.mostBlogs(singleBlog);
+    expect(result).toEqual({
+      author: "Michael Chan",
+      blogs: 1,
+    });
+  });
+
+  test("of an empty list is 0", () => {
+    const result = listHelper.mostBlogs(emptyBlog);
     expect(result).toBe(0);
   });
 });
