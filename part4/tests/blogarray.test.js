@@ -115,9 +115,8 @@ describe("Most likes", () => {
   });
 });
 
-// most blogs test
-
-describe("Most blogs", () => {
+// most blogs per author test
+describe("Most blogs per author", () => {
   test("of a bigger list is calculated right", () => {
     const result = listHelper.mostBlogs(blogs);
     expect(result).toEqual({
@@ -136,6 +135,30 @@ describe("Most blogs", () => {
 
   test("of an empty list is 0", () => {
     const result = listHelper.mostBlogs(emptyBlog);
+    expect(result).toBe(0);
+  });
+});
+
+// most likes per author test
+describe("Most likes per author", () => {
+  test("of a bigger list is calculated right", () => {
+    const result = listHelper.mostLikes(blogs);
+    expect(result).toEqual({
+      author: "Edsger W. Dijkstra",
+      likes: 17,
+    });
+  });
+
+  test("of a single author is equal to its likes", () => {
+    const result = listHelper.mostLikes(singleBlog);
+    expect(result).toEqual({
+      author: "Michael Chan",
+      likes: 7,
+    });
+  });
+
+  test("of an empty list is 0", () => {
+    const result = listHelper.mostLikes(emptyBlog);
     expect(result).toBe(0);
   });
 });
