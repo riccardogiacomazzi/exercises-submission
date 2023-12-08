@@ -42,7 +42,7 @@ const mostBlogs = (blogs) => {
 
 //most likes per author
 const mostLikes = (blogs) => {
-  if (blogs.length > 1) {
+  if (blogs.length != 0) {
     const blogByAuthor = _.groupBy(blogs, "author");
     const authorMostLikes = _.maxBy(Object.keys(blogByAuthor), (author) => _.sumBy(blogByAuthor[author], "likes"));
     const totalLikesByAuthor = _.sumBy(blogByAuthor[authorMostLikes], "likes");
@@ -50,12 +50,7 @@ const mostLikes = (blogs) => {
       author: authorMostLikes,
       likes: totalLikesByAuthor,
     };
-  } else if (blogs.length === 1) {
-    return {
-      author: blogs[0].author,
-      likes: blogs[0].likes,
-    };
-  } else if (blogs.length === 0) {
+  } else {
     return 0;
   }
 };
