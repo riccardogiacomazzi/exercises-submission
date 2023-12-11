@@ -94,3 +94,9 @@ test("Title and url are required. If missing status is 400", async () => {
   const response = await api.get("/api/blogs");
   expect(response.body.length).toBe(2);
 });
+
+test("DELETE request works properly", async () => {
+  const response = await api.get("/api/blogs");
+  const idToDelete = response.body[1].id;
+  await api.delete(`/api/blogs/${idToDelete}`).expect(200);
+});
