@@ -11,7 +11,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test && jest --verbose",
+    "test": "cross-env NODE_ENV=test && jest --verbose --runInBand",
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development && nodemon index.js"
   },
