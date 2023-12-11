@@ -40,7 +40,7 @@ test("GET to /api/blogs return correct blogs number", async () => {
 });
 
 test("POST to /api/blogs create a new entry", async () => {
-  const newBlog = {
+  const addBlog = {
     title: "Breaking Good",
     author: "Accendi Unlume",
     url: "www.ggww.com",
@@ -49,11 +49,24 @@ test("POST to /api/blogs create a new entry", async () => {
 
   await api
     .post("/api/blogs")
-    .send(newBlog)
+    .send(addBlog)
     .set("Accept", "application/json")
     .expect("Content-Type", /json/)
     .expect(201);
 
   const response = await api.get("/api/blogs");
   expect(response.body.length).toBe(3);
+});
+
+test("POST with empty likes returns them as 0 ", async () => {
+  const addBlogNoLikes = {
+    title: "Breaking Good",
+    author: "Accendi Unlume",
+    url: "www.ggww.com",
+  };
+
+  await api.post("/api/blogs").send(addBlogNoLikes).set("Accept", "application/json").expect(201);
+
+  const response = await api.get("/api/blogs");
+  expect(response.body[2].likes).toBe(0);
 });

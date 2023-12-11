@@ -5,7 +5,7 @@ Content-Type: application/json
   "title": "MortiDiFame2 - la vendetta",
   "author": "Giustiziere Maskerato",
   "url": "www.maledettiiiiii.com",
-  "likes": 15923
+  "likes" :14
 } 
 
 ###
