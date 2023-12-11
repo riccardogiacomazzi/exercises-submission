@@ -13,7 +13,17 @@ GET http://localhost:3001/api/blogs HTTP/1.1
 ###
 GET http://localhost:3001/api/blogs/656f069711dafc9bdfb5809d HTTP/1.1
 ### 
-DELETE http://localhost:3001/api/blogs/657710efe6cde63d09743cca HTTP/1.1
+DELETE http://localhost:3001/api/blogs/656f3dfcdd353c21e73484ac HTTP/1.1
+###
+PUT http://localhost:3001/api/blogs/65773f640a0475818945f0d8 HTTP/1.1
+Content-Type: application/json
 
+{
+  "title": "React patterns",
+  "author": "Michael Chan",
+  "url": "https://reactpatterns.com/",
+  "likes": 120,
+  "id": "65773f640a0475818945f0d8"
+}
 
 

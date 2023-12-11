@@ -2,7 +2,7 @@ const blogRouter = require("express").Router();
 const { default: mongoose } = require("mongoose");
 const Blog = require("../models/blog");
 const middleware = require("../utils/middleware");
-const { request } = require("../app");
+const { request, response } = require("../app");
 
 //GET
 blogRouter.get("/", (request, response) => {
@@ -38,8 +38,21 @@ blogRouter.post("/", (request, response, next) => {
 
 //DELETE
 blogRouter.delete("/:id", async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id);
-  response.status(200).end();
+  const toDelete = await Blog.findByIdAndDelete(request.params.id);
+  response.status(200).json(toDelete).end();
+});
+
+//PUT
+blogRouter.put("/:id", async (request, response) => {
+  await Blog.findByIdAndUpdate(request.params.id, {
+    title: request.body.title,
+    author: request.body.title,
+    url: request.body.url,
+    likes: request.body.likes,
+  });
+
+  const blogUpdated = await Blog.findById(request.params.id);
+  response.status(200).json(blogUpdated).end();
 });
 
 module.exports = blogRouter;

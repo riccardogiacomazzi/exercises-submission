@@ -15,7 +15,7 @@ const initialBlogs = [
     title: "MortiDiFame",
     author: "Giustiziere Maskerato",
     url: "www.maledettiiiiii.com",
-    likes: 3,
+    likes: 0,
   },
 ];
 
@@ -95,8 +95,25 @@ test("Title and url are required. If missing status is 400", async () => {
   expect(response.body.length).toBe(2);
 });
 
-test("DELETE request works properly", async () => {
+test("DELETE to /api/blogs/:id works properly", async () => {
   const response = await api.get("/api/blogs");
   const idToDelete = response.body[1].id;
   await api.delete(`/api/blogs/${idToDelete}`).expect(200);
+});
+
+test("PUT to /api/blogs/:id works properly", async () => {
+  const response = await api.get("/api/blogs");
+  const idToUpdate = response.body[1].id;
+
+  const blogUpdate = {
+    title: response.body[1].title,
+    author: response.body[1].author,
+    url: response.body[1].url,
+    likes: 333,
+    id: response.body[1].id,
+  };
+
+  await api.put(`/api/blogs/${idToUpdate}`).send(blogUpdate).expect(200);
+  const updatedResponse = await api.get(`/api/blogs/${idToUpdate}`);
+  expect(updatedResponse.body.likes).toBe(333);
 });
