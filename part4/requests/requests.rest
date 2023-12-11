@@ -2,14 +2,17 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-  "title": "MortiDiFame2 - la vendetta",
-  "author": "Giustiziere Maskerato",
-  "url": "www.maledettiiiiii.com",
-  "likes" :14
+    "title": "React patterns",
+    "author": "Michael Chan",
+    "url": "https://reactpatterns.com/"
 } 
+
 
 ###
 GET http://localhost:3001/api/blogs HTTP/1.1
 
 ### 
 DELETE http://localhost:3001/api/blogs/656f3e804d5e79a0a9a11962 HTTP/1.1
+
+
+

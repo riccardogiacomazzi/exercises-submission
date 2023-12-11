@@ -65,8 +65,32 @@ test("POST with empty likes returns them as 0 ", async () => {
     url: "www.ggww.com",
   };
 
-  await api.post("/api/blogs").send(addBlogNoLikes).set("Accept", "application/json").expect(201);
+  await api
+    .post("/api/blogs")
+    .send(addBlogNoLikes)
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(201);
 
   const response = await api.get("/api/blogs");
   expect(response.body[2].likes).toBe(0);
+});
+
+test("Title and url are required. If missing status is 400", async () => {
+  const addBlogNoTitle = {
+    author: "Accendi Unlume",
+    url: "www.ggww.com",
+    likes: 4,
+  };
+
+  const addBlogNoUrl = {
+    author: "Accendi Unlume",
+    title: "Gigante Wonder",
+    likes: 4,
+  };
+
+  await api.post("/api/blogs").send(addBlogNoTitle).set("Accept", "application/json").expect(400);
+  await api.post("/api/blogs").send(addBlogNoUrl).set("Accept", "application/json").expect(400);
+  const response = await api.get("/api/blogs");
+  expect(response.body.length).toBe(2);
 });
