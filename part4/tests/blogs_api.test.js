@@ -38,3 +38,22 @@ test("GET to /api/blogs return correct blogs number", async () => {
   const response = await api.get("/api/blogs");
   expect(response.body.length).toBe(initialBlogs.length);
 });
+
+test("POST to /api/blogs create a new entry", async () => {
+  const newBlog = {
+    title: "Breaking Good",
+    author: "Accendi Unlume",
+    url: "www.ggww.com",
+    likes: 2,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .set("Accept", "application/json")
+    .expect("Content-Type", /json/)
+    .expect(201);
+
+  const response = await api.get("/api/blogs");
+  expect(response.body.length).toBe(3);
+});
