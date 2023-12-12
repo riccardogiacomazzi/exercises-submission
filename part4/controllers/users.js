@@ -11,19 +11,28 @@ userRouter.get("/", async (request, response) => {
 
 //POST
 userRouter.post("/", async (request, response) => {
-  const { username, password, name } = request.body;
+  try {
+    const { username, password, name } = request.body;
+    if (request.body.password === undefined || request.body.username === undefined) {
+      response.status(400).json({ error: "username or password missing" });
+    } else if (request.body.password.length < 3 || request.body.username.length < 3) {
+      response.status(400).json({ error: "username and password must be at least 3 carachters long" });
+    }
 
-  const saltRounds = 10;
-  const passwordHash = await bcrypt.hash(password, saltRounds);
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
 
-  const user = new User({
-    username,
-    name,
-    passwordHash,
-  });
+    const user = new User({
+      username,
+      name,
+      passwordHash,
+    });
 
-  const savedUser = await user.save();
-  response.status(201).json(savedUser);
+    const savedUser = await user.save();
+    response.status(201).json(savedUser);
+  } catch (error) {
+    response.status(400).json(error.message);
+  }
 });
 
 module.exports = userRouter;
