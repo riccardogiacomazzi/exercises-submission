@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const supertest = require("supertest");
 const app = require("../app");
 const api = supertest(app);
-const User = require("../models/users");
+const User = require("../models/user");
 const helper = require("../tests/test_helper");
 
 describe("when there is initially one user in db", () => {
