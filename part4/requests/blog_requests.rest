@@ -1,13 +1,13 @@
 ###POST blogs WITH USERID
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvc3RtYW4iLCJpZCI6IjY1N2IwZGRmZjJjZGUzNGJhMzFiOGQxZSIsImlhdCI6MTcwMjU2MzMxN30.PZvfPuShEc-droSEm20Ue0RabMHUdCpurHvwVvbdNlM
 
 {
-    "title": "My first Blog_utente2",
-    "author": "Bla BlaBla",
+    "title": "Blog with Authorization: ",
+    "author": "Mr Authorized",
     "url": "https://1stBlog.com/",
-    "likes": 0,
-    "userId": "6579d4880d523a393b7cb7f0"
+    "likes": 0
 } 
 ### POST blogs WITHOUT USERID
 POST http://localhost:3001/api/blogs
