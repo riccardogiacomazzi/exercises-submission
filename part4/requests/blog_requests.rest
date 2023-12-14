@@ -1,7 +1,7 @@
 ###POST blogs WITH USERID
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvc3RtYW4iLCJpZCI6IjY1N2IwZGRmZjJjZGUzNGJhMzFiOGQxZSIsImlhdCI6MTcwMjU2MzMxN30.PZvfPuShEc-droSEm20Ue0RabMHUdCpurHvwVvbdNlM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvc3RtYW4iLCJpZCI6IjY1N2IwZGRmZjJjZGUzNGJhMzFiOGQxZSIsImlhdCI6MTcwMjU2MzMxN30.PZvfPuShEc-droSEm20Ue0RabMHUdCpurHvwVvbdNlM
 
 {
     "title": "Blog with Authorization: ",
