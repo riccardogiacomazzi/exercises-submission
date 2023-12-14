@@ -1,12 +1,24 @@
+###POST blogs WITH USERID
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Carpets",
-    "url": "https://carpetty.com/",
+    "title": "My first Blog_utente2",
+    "author": "Bla BlaBla",
+    "url": "https://1stBlog.com/",
+    "likes": 0,
+    "userId": "6579d4880d523a393b7cb7f0"
+} 
+### POST blogs WITHOUT USERID
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "title": "My first Blog___no user specified",
+    "author": "Me",
+    "url": "https://1stBlog_nouser.com/",
     "likes": 0
 } 
-
 ###
 GET http://localhost:3001/api/blogs HTTP/1.1
 ###
