@@ -3,7 +3,6 @@ const { default: mongoose } = require("mongoose");
 const Blog = require("../models/blog");
 const User = require("../models/user");
 const middleware = require("../utils/middleware");
-const { request, response } = require("../app");
 const jwt = require("jsonwebtoken");
 
 //GET all
@@ -22,15 +21,10 @@ blogRouter.get("/:id", async (request, response) => {
 });
 
 //POST
-blogRouter.post("/", async (request, response, next) => {
+blogRouter.post("/", middleware.userExtractor, async (request, response, next) => {
   try {
     const body = request.body;
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: "Token invalid" });
-    }
-
-    const user = await User.findById(decodedToken.id);
+    const user = request.user;
 
     const blog = new Blog({
       title: body.title,
@@ -41,6 +35,7 @@ blogRouter.post("/", async (request, response, next) => {
     });
 
     const savedBlog = await blog.save();
+    console.log("user:", user);
     user.blogs = user.blogs.concat(savedBlog._id);
     await user.save();
     response.status(201).json(savedBlog);
@@ -51,13 +46,12 @@ blogRouter.post("/", async (request, response, next) => {
 });
 
 //DELETE
-blogRouter.delete("/:id", async (request, response) => {
+blogRouter.delete("/:id", middleware.userExtractor, async (request, response, next) => {
   try {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    const user = request.user;
     const blog = await Blog.findById(request.params.id);
     const userId = blog.user;
-
-    if (decodedToken.id.toString() === userId.toString()) {
+    if (user._id.valueOf() === userId.toString()) {
       const toDelete = await Blog.findByIdAndDelete(request.params.id);
       response.status(200).json(toDelete).end();
     }
