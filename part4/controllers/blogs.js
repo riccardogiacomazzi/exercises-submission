@@ -1,9 +1,7 @@
 const blogRouter = require("express").Router();
 const { default: mongoose } = require("mongoose");
 const Blog = require("../models/blog");
-const User = require("../models/user");
 const middleware = require("../utils/middleware");
-const jwt = require("jsonwebtoken");
 
 //GET all
 blogRouter.get("/", async (request, response) => {
@@ -35,7 +33,6 @@ blogRouter.post("/", middleware.userExtractor, async (request, response, next) =
     });
 
     const savedBlog = await blog.save();
-    console.log("user:", user);
     user.blogs = user.blogs.concat(savedBlog._id);
     await user.save();
     response.status(201).json(savedBlog);

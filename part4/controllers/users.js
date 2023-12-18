@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const userRouter = require("express").Router();
 const User = require("../models/user");
-const middleware = require("../utils/middleware");
 
 //GET
 userRouter.get("/", async (request, response) => {

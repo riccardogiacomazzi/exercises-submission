@@ -1,18 +1,18 @@
 ###POST blogs WITH authorization token
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJfbnVtYmVyMSIsImlkIjoiNjU3Yzk1ZDUzOTBkZWEyOWY4MjBiZWQyIiwiaWF0IjoxNzAyNjYzNjYwfQ.-hISsZKi85Tns9XZ0nIyFXTbTZoejLBvfB2AcEGLIk4
 
 {
-    "title": "Blog with Authorization: 100",
-    "author": "Mr Authorized",
+    "title": "TESTESTEST",
+    "author": "User n1",
     "url": "https://1stBlog.com/",
-    "likes": 0
+    "likes": 100.000
 } 
 
 ### DELETE with authorization token
-DELETE http://localhost:3001/api/blogs/657c7956f182f13610944bfa HTTP/1.1
-Authorization: Bearer 
+DELETE http://localhost:3001/api/blogs/657c96de8cab31b8e1e46c43 HTTP/1.1
+Authorization: Bearer xyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJfbnVtYmVyMSIsImlkIjoiNjU3Yzk1ZDUzOTBkZWEyOWY4MjBiZWQyIiwiaWF0IjoxNzAyNjYzNjYwfQ.-hISsZKi85Tns9XZ0nIyFXTbTZoejLBvfB2AcEGLIk4
 
 ### POST blogs WITHOUT USERID
 POST http://localhost:3001/api/blogs
