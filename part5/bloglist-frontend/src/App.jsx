@@ -11,12 +11,22 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  //GET all blogs from server
   useEffect(() => {
     async function getBlogs() {
       const blogs = await blogService.getAll();
       setBlogs(blogs);
     }
     getBlogs();
+  }, []);
+
+  //Checks if the user is already logged in
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedUser");
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+    }
   }, []);
 
   const handleLogin = async (event) => {
@@ -26,9 +36,12 @@ const App = () => {
         username,
         password,
       });
+      window.localStorage.setItem("loggedUser", JSON.stringify(user));
+
       setUser(user);
       setUsername("");
       setPassword("");
+      setLoginStatus(true);
       console.log("user state:", user);
     } catch (exception) {
       setErrorMessage("Wrong credentials");
@@ -36,13 +49,16 @@ const App = () => {
         setErrorMessage(null);
       }, 5000);
     }
+  };
 
-    console.log("logging in with", username, password);
+  const handleLogout = () => {
+    const user = window.localStorage.clear();
+    setUser(user);
   };
 
   return (
     <div>
-      {user === null && (
+      {!user && (
         <LoginForm
           handleLogin={handleLogin}
           username={username}
@@ -53,9 +69,10 @@ const App = () => {
         />
       )}
 
-      {user !== null && (
+      {user && (
         <div>
           <p>Logged in as {user.name}</p>
+          <button onClick={handleLogout}>logout</button>
           <Blog blogs={blogs} />
         </div>
       )}
