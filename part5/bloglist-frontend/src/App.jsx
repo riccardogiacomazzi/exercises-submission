@@ -15,7 +15,7 @@ const App = () => {
     title: "",
     author: "",
     url: "",
-    likes: "",
+    likes: 0,
   });
 
   //GET all blogs from server
@@ -49,8 +49,6 @@ const App = () => {
       blogService.setToken(user.token);
       setUsername("");
       setPassword("");
-      setLoginStatus(true);
-      console.log("user state:", user);
     } catch (exception) {
       setErrorMessage("Wrong credentials");
       setTimeout(() => {
@@ -64,8 +62,9 @@ const App = () => {
     setUser(user);
   };
 
-  const handleBlog = () => {
-    blogService.create(newBlog);
+  const handleBlog = async () => {
+    blogService.setToken(user.token);
+    await blogService.create(newBlog);
   };
 
   return (

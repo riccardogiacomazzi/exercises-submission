@@ -4,7 +4,7 @@ const Blog = ({ blogs }) => {
       <h3>Blogs</h3>
       {blogs.map((blog) => (
         <p key={blog.id}>
-          {blog.title} {blog.author}
+          {blog.title} - {blog.author}
         </p>
       ))}
     </div>
