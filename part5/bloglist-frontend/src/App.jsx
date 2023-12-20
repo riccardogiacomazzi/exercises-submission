@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import LoginForm from "./components/loginForm";
+import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -10,6 +11,12 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [newBlog, setNewBlog] = useState({
+    title: "",
+    author: "",
+    url: "",
+    likes: "",
+  });
 
   //GET all blogs from server
   useEffect(() => {
@@ -39,6 +46,7 @@ const App = () => {
       window.localStorage.setItem("loggedUser", JSON.stringify(user));
 
       setUser(user);
+      blogService.setToken(user.token);
       setUsername("");
       setPassword("");
       setLoginStatus(true);
@@ -56,8 +64,13 @@ const App = () => {
     setUser(user);
   };
 
+  const handleBlog = () => {
+    blogService.create(newBlog);
+  };
+
   return (
     <div>
+      {/* user is falsy _> login form provided */}
       {!user && (
         <LoginForm
           handleLogin={handleLogin}
@@ -69,10 +82,18 @@ const App = () => {
         />
       )}
 
+      {/* user is truthy _> blog list rendered */}
       {user && (
         <div>
           <p>Logged in as {user.name}</p>
           <button onClick={handleLogout}>logout</button>
+          <BlogForm
+            handleBlog={handleBlog}
+            user={user}
+            newBlog={newBlog}
+            setNewBlog={setNewBlog}
+            errorMessage={errorMessage}
+          />
           <Blog blogs={blogs} />
         </div>
       )}
