@@ -1,5 +1,4 @@
 const blogRouter = require("express").Router();
-const { default: mongoose } = require("mongoose");
 const Blog = require("../models/blog");
 const middleware = require("../utils/middleware");
 
@@ -19,7 +18,7 @@ blogRouter.get("/:id", async (request, response) => {
 });
 
 //POST
-blogRouter.post("/", middleware.userExtractor, async (request, response, next) => {
+blogRouter.post("/", middleware.userExtractor, async (request, response) => {
   try {
     const body = request.body;
     const user = request.user;
@@ -34,11 +33,11 @@ blogRouter.post("/", middleware.userExtractor, async (request, response, next) =
 
     const savedBlog = await blog.save();
     user.blogs = user.blogs.concat(savedBlog._id);
+
     await user.save();
     response.status(201).json(savedBlog);
   } catch (error) {
     response.status(400).json(error.message);
-    next(error);
   }
 });
 
