@@ -11,7 +11,10 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState({
+    message: "",
+    style: "",
+  });
   const [newBlog, setNewBlog] = useState({
     title: "",
     author: "",
@@ -51,9 +54,9 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setNotification("Wrong credentials");
+      updateNotification("Wrong credentials", "errorMessage");
       setTimeout(() => {
-        setNotification(null);
+        updateNotification("", "");
       }, 3000);
     }
   };
@@ -71,16 +74,24 @@ const App = () => {
       setNewBlog({ title: "", author: "", url: "", likes: 0 });
       const updatedBlog = await blogService.getAll();
       setBlogs(updatedBlog);
-      setNotification(`Blog "${addedBlog.title}" by ${addedBlog.author} added`);
+      updateNotification(`Blog "${addedBlog.title}" by ${addedBlog.author} added`, "notificationMessage");
       setTimeout(() => {
-        setNotification(null);
+        updateNotification("", "");
       }, 3000);
     } catch (error) {
-      setNotification(error.response.data);
+      updateNotification("Title and Url are required fields", "errorMessage");
       setTimeout(() => {
-        setNotification(null);
+        updateNotification("", "");
       }, 3000);
     }
+  };
+
+  const updateNotification = (newMessage, newStyle) => {
+    setNotification((prevNotification) => ({
+      ...prevNotification,
+      message: newMessage,
+      style: newStyle,
+    }));
   };
 
   return (
@@ -94,7 +105,6 @@ const App = () => {
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}
-          notification={notification}
         />
       )}
 
@@ -106,13 +116,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </p>
 
-          <BlogForm
-            handleBlog={handleBlog}
-            user={user}
-            newBlog={newBlog}
-            setNewBlog={setNewBlog}
-            notification={notification}
-          />
+          <BlogForm handleBlog={handleBlog} user={user} newBlog={newBlog} setNewBlog={setNewBlog} />
           <Blog blogs={blogs} />
         </div>
       )}

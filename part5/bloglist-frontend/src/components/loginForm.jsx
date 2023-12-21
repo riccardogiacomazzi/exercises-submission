@@ -1,5 +1,3 @@
-import Notification from "./Notification";
-
 const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }) => {
   return (
     <div>
