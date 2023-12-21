@@ -4,13 +4,14 @@ import LoginForm from "./components/loginForm";
 import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [notification, setNotification] = useState("");
   const [newBlog, setNewBlog] = useState({
     title: "",
     author: "",
@@ -50,10 +51,10 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrorMessage("Wrong credentials");
+      setNotification("Wrong credentials");
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        setNotification(null);
+      }, 3000);
     }
   };
 
@@ -62,13 +63,29 @@ const App = () => {
     setUser(user);
   };
 
-  const handleBlog = async () => {
-    blogService.setToken(user.token);
-    await blogService.create(newBlog);
+  const handleBlog = async (event) => {
+    try {
+      event.preventDefault();
+      blogService.setToken(user.token);
+      const addedBlog = await blogService.create(newBlog);
+      setNewBlog({ title: "", author: "", url: "", likes: 0 });
+      const updatedBlog = await blogService.getAll();
+      setBlogs(updatedBlog);
+      setNotification(`Blog "${addedBlog.title}" by ${addedBlog.author} added`);
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+    } catch (error) {
+      setNotification(error.response.data);
+      setTimeout(() => {
+        setNotification(null);
+      }, 3000);
+    }
   };
 
   return (
     <div>
+      <Notification notification={notification} />
       {/* user is falsy _> login form provided */}
       {!user && (
         <LoginForm
@@ -77,21 +94,24 @@ const App = () => {
           setUsername={setUsername}
           password={password}
           setPassword={setPassword}
-          errorMessage={errorMessage}
+          notification={notification}
         />
       )}
 
       {/* user is truthy _> blog list rendered */}
       {user && (
         <div>
-          <p>Logged in as {user.name}</p>
-          <button onClick={handleLogout}>logout</button>
+          <p>
+            Logged in as {user.name}
+            <button onClick={handleLogout}>logout</button>
+          </p>
+
           <BlogForm
             handleBlog={handleBlog}
             user={user}
             newBlog={newBlog}
             setNewBlog={setNewBlog}
-            errorMessage={errorMessage}
+            notification={notification}
           />
           <Blog blogs={blogs} />
         </div>
