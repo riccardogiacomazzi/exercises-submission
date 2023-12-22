@@ -16,12 +16,6 @@ const App = () => {
     message: "",
     style: "",
   });
-  const [newBlog, setNewBlog] = useState({
-    title: "",
-    author: "",
-    url: "",
-    likes: 0,
-  });
 
   const blogFormRef = useRef();
 
@@ -69,24 +63,14 @@ const App = () => {
     setUser(user);
   };
 
-  const handleBlog = async (event) => {
+  const addBlog = async (blogObject) => {
     try {
-      event.preventDefault();
-      blogFormRef.current.toggleVisibility();
       blogService.setToken(user.token);
-      const addedBlog = await blogService.create(newBlog);
-      setNewBlog({ title: "", author: "", url: "", likes: 0 });
-      const updatedBlog = await blogService.getAll();
-      setBlogs(updatedBlog);
-      updateNotification(`Blog "${addedBlog.title}" by ${addedBlog.author} added`, "notificationMessage");
-      setTimeout(() => {
-        updateNotification("", "");
-      }, 3000);
+      const newBlog = await blogService.create(blogObject);
+      setBlogs(blogs.concat(newBlog));
+      updateNotification(`Blog "${newBlog.title}" by ${newBlog.author} added`, "notificationMessage");
     } catch (error) {
       updateNotification("Title and Url are required fields", "errorMessage");
-      setTimeout(() => {
-        updateNotification("", "");
-      }, 3000);
     }
   };
 
@@ -96,6 +80,9 @@ const App = () => {
       message: newMessage,
       style: newStyle,
     }));
+    setTimeout(() => {
+      setNotification({ message: "", style: "" });
+    }, 3000);
   };
 
   return (
@@ -120,7 +107,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </p>
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
-            <BlogForm handleBlog={handleBlog} user={user} newBlog={newBlog} setNewBlog={setNewBlog} />
+            <BlogForm createBlog={addBlog} />
           </Togglable>
           <Blog blogs={blogs} />
         </div>
