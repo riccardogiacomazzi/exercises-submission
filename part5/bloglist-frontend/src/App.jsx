@@ -55,6 +55,8 @@ const App = () => {
       blogService.setToken(user.token);
       const newBlog = await blogService.create(blogObject);
       setBlogs(blogs.concat(newBlog));
+      const updatedBlogs = await blogService.getAll();
+      setBlogs(updatedBlogs);
       updateNotification(`Blog "${newBlog.title}" by ${newBlog.author} added`, "notificationMessage");
     } catch (error) {
       updateNotification("Title and Url are required fields", "errorMessage");
@@ -85,7 +87,7 @@ const App = () => {
             Logged in as {user.name}
             <button onClick={handleLogout}>logout</button>
           </p>
-          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+          <Togglable buttonLabel="new blog" buttonLabelClose="close" ref={blogFormRef}>
             <BlogForm createBlog={addBlog} />
           </Togglable>
           <Blog blogs={blogs} />
