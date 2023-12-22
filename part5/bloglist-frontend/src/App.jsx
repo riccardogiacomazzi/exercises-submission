@@ -9,8 +9,6 @@ import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState({
     message: "",
@@ -37,24 +35,13 @@ const App = () => {
     }
   }, []);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const login = async (loginObject) => {
     try {
-      const user = await loginService.loginRequest({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedUser", JSON.stringify(user));
-
-      setUser(user);
-      blogService.setToken(user.token);
-      setUsername("");
-      setPassword("");
-    } catch (exception) {
+      const loggedUser = await loginService.loginRequest(loginObject);
+      setUser(loggedUser);
+      window.localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    } catch (error) {
       updateNotification("Wrong credentials", "errorMessage");
-      setTimeout(() => {
-        updateNotification("", "");
-      }, 3000);
     }
   };
 
@@ -89,15 +76,7 @@ const App = () => {
     <div>
       <Notification notification={notification} />
       {/* user is falsy _> login form provided */}
-      {!user && (
-        <LoginForm
-          handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-        />
-      )}
+      {!user && <LoginForm handleLogin={login} />}
 
       {/* user is truthy _> blog list rendered */}
       {user && (
