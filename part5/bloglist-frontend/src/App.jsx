@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import LoginForm from "./components/loginForm";
 import BlogForm from "./components/BlogForm";
@@ -22,6 +22,8 @@ const App = () => {
     url: "",
     likes: 0,
   });
+
+  const blogFormRef = useRef();
 
   //GET all blogs from server
   useEffect(() => {
@@ -70,6 +72,7 @@ const App = () => {
   const handleBlog = async (event) => {
     try {
       event.preventDefault();
+      blogFormRef.current.toggleVisibility();
       blogService.setToken(user.token);
       const addedBlog = await blogService.create(newBlog);
       setNewBlog({ title: "", author: "", url: "", likes: 0 });
@@ -116,7 +119,7 @@ const App = () => {
             Logged in as {user.name}
             <button onClick={handleLogout}>logout</button>
           </p>
-          <Togglable buttonLabel="new blog">
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm handleBlog={handleBlog} user={user} newBlog={newBlog} setNewBlog={setNewBlog} />
           </Togglable>
           <Blog blogs={blogs} />
