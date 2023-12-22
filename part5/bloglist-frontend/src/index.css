@@ -41,7 +41,7 @@ h1 {
 .notificationMessage {
   color: rgb(31, 160, 72);
   background: rgb(184, 216, 242);
-  font-size: 20px;
+  font-size: 15px;
   border-style: solid;
   border-radius: 5px;
   padding: 10px;
@@ -51,7 +51,7 @@ h1 {
 .errorMessage {
   color: rgb(196, 12, 12);
   background: rgb(223, 171, 171);
-  font-size: 20px;
+  font-size: 15px;
   border-style: solid;
   border-radius: 5px;
   padding: 10px;

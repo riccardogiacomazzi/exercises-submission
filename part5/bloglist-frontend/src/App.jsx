@@ -50,8 +50,10 @@ const App = () => {
     setUser(user);
   };
 
+  //addBlog
   const addBlog = async (blogObject) => {
     try {
+      blogFormRef.current.toggleVisibility();
       blogService.setToken(user.token);
       const newBlog = await blogService.create(blogObject);
       setBlogs(blogs.concat(newBlog));
@@ -61,6 +63,21 @@ const App = () => {
     } catch (error) {
       updateNotification("Title and Url are required fields", "errorMessage");
     }
+  };
+
+  //updateBlog
+  const updateBlog = async (id) => {
+    const request = await blogService.getOne(id);
+    const updatedBlog = {
+      title: request.title,
+      author: request.author,
+      url: request.url,
+      likes: request.likes + 1,
+      user: request.user,
+    };
+    await blogService.update(id, updatedBlog);
+    const updatedBlogs = await blogService.getAll();
+    setBlogs(updatedBlogs);
   };
 
   const updateNotification = (newMessage, newStyle) => {
@@ -90,7 +107,7 @@ const App = () => {
           <Togglable buttonLabel="new blog" buttonLabelClose="close" ref={blogFormRef}>
             <BlogForm createBlog={addBlog} />
           </Togglable>
-          <Blog blogs={blogs} />
+          <Blog blogs={blogs} updateBlog={updateBlog} />
         </div>
       )}
     </div>
