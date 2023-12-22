@@ -5,6 +5,7 @@ import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -115,8 +116,9 @@ const App = () => {
             Logged in as {user.name}
             <button onClick={handleLogout}>logout</button>
           </p>
-
-          <BlogForm handleBlog={handleBlog} user={user} newBlog={newBlog} setNewBlog={setNewBlog} />
+          <Togglable buttonLabel="new blog">
+            <BlogForm handleBlog={handleBlog} user={user} newBlog={newBlog} setNewBlog={setNewBlog} />
+          </Togglable>
           <Blog blogs={blogs} />
         </div>
       )}
