@@ -21,6 +21,7 @@ const App = () => {
   useEffect(() => {
     async function getBlogs() {
       const blogs = await blogService.getAll();
+      sortFunction(blogs);
       setBlogs(blogs);
     }
     getBlogs();
@@ -50,6 +51,12 @@ const App = () => {
     setUser(user);
   };
 
+  const sortFunction = (blogArray) => {
+    blogArray.sort(function (min, max) {
+      return max.likes - min.likes;
+    });
+  };
+
   //addBlog
   const addBlog = async (blogObject) => {
     try {
@@ -58,6 +65,7 @@ const App = () => {
       const newBlog = await blogService.create(blogObject);
       setBlogs(blogs.concat(newBlog));
       const updatedBlogs = await blogService.getAll();
+      sortFunction(updatedBlogs);
       setBlogs(updatedBlogs);
       updateNotification(`Blog "${newBlog.title}" by ${newBlog.author} added`, "notificationMessage");
     } catch (error) {
@@ -77,6 +85,7 @@ const App = () => {
     };
     await blogService.update(id, updatedBlog);
     const updatedBlogs = await blogService.getAll();
+    sortFunction(updatedBlogs);
     setBlogs(updatedBlogs);
   };
 
