@@ -28,7 +28,7 @@ body {
   display: flex;
   place-items: center;
   /* min-width: 350px; */
-  min-height: 100vh;
+  /* min-height: 100vh; */
   align-items: center;
   justify-content: center;
 }
@@ -87,5 +87,8 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+  button:hover {
+    background-color: #d9dbff;
   }
 }
