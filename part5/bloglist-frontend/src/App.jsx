@@ -95,7 +95,7 @@ const App = () => {
     if (confirm(`Do you want to delete the blog: ${toDelete.title}?`)) {
       blogService.setToken(user.token);
       await blogService.deleteOne(id);
-    } else null;
+    }
     const updatedBlogs = await blogService.getAll();
     sortFunction(updatedBlogs);
     setBlogs(updatedBlogs);
@@ -128,7 +128,7 @@ const App = () => {
           <Togglable buttonLabel="new blog" buttonLabelClose="close" ref={blogFormRef}>
             <BlogForm createBlog={addBlog} />
           </Togglable>
-          <Blog blogs={blogs} updateBlog={updateBlog} deleteBlog={deleteBlog} />
+          <Blog blogs={blogs} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user} />
         </div>
       )}
     </div>

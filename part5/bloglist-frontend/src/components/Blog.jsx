@@ -1,7 +1,7 @@
 import Togglable from "./Togglable";
 import RemoveButton from "./RemoveButton";
 
-const Blog = ({ blogs, updateBlog, deleteBlog }) => {
+const Blog = ({ blogs, updateBlog, deleteBlog, user }) => {
   const blogStyle = {
     display: "flex",
     flexDirection: "column",
@@ -34,8 +34,8 @@ const Blog = ({ blogs, updateBlog, deleteBlog }) => {
               <ul>
                 Likes: {blog.likes} <button onClick={() => updateBlog(blog.id)}>like</button>
               </ul>
-              <ul>added by: {blog.user.name} </ul>
-              <RemoveButton deleteBlog={deleteBlog} blog={blog} />
+              <ul>Added by: {blog.user.name} </ul>
+              <RemoveButton deleteBlog={deleteBlog} blog={blog} user={user} />
             </Togglable>
           </div>
         </div>
