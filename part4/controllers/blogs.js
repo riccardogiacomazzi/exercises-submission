@@ -60,9 +60,10 @@ blogRouter.delete("/:id", middleware.userExtractor, async (request, response, ne
 blogRouter.put("/:id", async (request, response) => {
   await Blog.findByIdAndUpdate(request.params.id, {
     title: request.body.title,
-    author: request.body.title,
+    author: request.body.author,
     url: request.body.url,
     likes: request.body.likes,
+    user: request.body.user,
   });
 
   const blogUpdated = await Blog.findById(request.params.id);

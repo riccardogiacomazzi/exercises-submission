@@ -27,11 +27,11 @@ Content-Type: application/json
 ###
 GET http://localhost:3001/api/blogs HTTP/1.1
 ###
-GET http://localhost:3001/api/blogs/656f069711dafc9bdfb5809d HTTP/1.1
+GET http://localhost:3001/api/blogs/6585bb6311f784767358a481 HTTP/1.1
 ### 
 DELETE http://localhost:3001/api/blogs/656f3dfcdd353c21e73484ac HTTP/1.1
 ###
-PUT http://localhost:3001/api/blogs/65773f640a0475818945f0d8 HTTP/1.1
+PUT http://localhost:3001/api/blogs/6585bb6311f784767358a481 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -39,7 +39,8 @@ Content-Type: application/json
   "author": "Michael Chan",
   "url": "https://reactpatterns.com/",
   "likes": 120,
-  "id": "65773f640a0475818945f0d8"
+  "id": "65773f640a0475818945f0d8",
+  "user":"6581b11dad414436adf04a38"
 }
 
 
