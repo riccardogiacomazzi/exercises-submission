@@ -25,7 +25,7 @@ const Blog = ({ blogs, updateBlog, deleteBlog, user }) => {
 
       {blogs.map((blog) => (
         <div key={blog.id} style={blogStyle}>
-          <div>
+          <div className="blogTitle">
             {blog.title} by {blog.author}
           </div>
           <div style={infoContainerStyle}>
