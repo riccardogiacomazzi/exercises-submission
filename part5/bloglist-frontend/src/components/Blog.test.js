@@ -3,12 +3,18 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import Blog from "../components/Blog";
 
-jest.mock("./RemoveButton", () => ({
-  __esModule: true,
-  default: jest.fn(() => null),
-}));
+const userLogged = {
+  username: "admin",
+  name: "Riccardo Giacomaziz",
+  id: "6581b11dad414436adf04a38",
+};
 
-test("renders title and author", () => {
+test("Title and Author are correctly rendered", () => {
+  jest.mock("./RemoveButton", () => ({
+    __esModule: true,
+    default: jest.fn(() => null),
+  }));
+
   const blogs = [
     {
       title: "Test blog title is rendered",
@@ -24,7 +30,7 @@ test("renders title and author", () => {
     },
   ];
 
-  const { container } = render(<Blog blogs={blogs} />);
+  const { container } = render(<Blog blogs={blogs} user={userLogged} />);
 
   const div = container.querySelector(".blogTitle");
   expect(div).toHaveTextContent("Test blog title is rendered by Tester author");
