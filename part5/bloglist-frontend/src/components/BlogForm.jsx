@@ -30,11 +30,12 @@ const BlogForm = ({ createBlog }) => {
       <h3>Add blog</h3>
       <form onSubmit={addBlog}>
         <div>
-          title
+          <label id="title">title</label>
           <input
+            aria-labelledby="title"
             type="text"
             value={newBlog.title}
-            name="blog name"
+            name="title"
             onChange={({ target }) =>
               setNewBlog((prevBlog) => ({
                 ...prevBlog,
@@ -44,11 +45,12 @@ const BlogForm = ({ createBlog }) => {
           />
         </div>
         <div>
-          author
+          <label id="author">author</label>
           <input
+            aria-labelledby="author"
             type="text"
             value={newBlog.author}
-            name="blog name"
+            name="author"
             onChange={({ target }) =>
               setNewBlog((prevBlog) => ({
                 ...prevBlog,
@@ -58,11 +60,12 @@ const BlogForm = ({ createBlog }) => {
           />
         </div>
         <div>
-          url
+          <label id="url">url</label>
           <input
+            aria-labelledby="url"
             type="text"
             value={newBlog.url}
-            name="blog name"
+            name="url"
             onChange={({ target }) =>
               setNewBlog((prevBlog) => ({
                 ...prevBlog,

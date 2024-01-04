@@ -1,9 +1,10 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, getByText, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Blog from "../components/Blog";
 import Togglable from "./Togglable";
+import BlogForm from "./BlogForm";
 
 const userLogged = {
   username: "admin",
@@ -27,6 +28,7 @@ const blogs = [
 ];
 
 const mockLike = jest.fn();
+const mockAddBlog = jest.fn();
 
 describe("<Blog />:", () => {
   test("Title and Author are correctly rendered", () => {
@@ -79,5 +81,28 @@ describe("<Togglable />:", () => {
     await user.click(button);
 
     expect(mockLike.mock.calls).toHaveLength(2);
+  });
+});
+
+describe("<BlogForm />:", () => {
+  test("blog data from form are passed correctly", async () => {
+    render(<BlogForm createBlog={mockAddBlog} />);
+
+    fireEvent.change(screen.getByLabelText(/title/i), { target: { value: "Test Title" } });
+    fireEvent.change(screen.getByLabelText(/author/i), { target: { value: "Test Author" } });
+    fireEvent.change(screen.getByLabelText(/url/i), { target: { value: "Test Url" } });
+
+    const user = userEvent.setup();
+    const buttonAddBlog = screen.getByText("add blog");
+    await user.click(buttonAddBlog);
+
+    await waitFor(() => {
+      expect(mockAddBlog).toHaveBeenCalledWith({
+        title: "Test Title",
+        author: "Test Author",
+        url: "Test Url",
+        likes: 0,
+      });
+    });
   });
 });
