@@ -32,6 +32,7 @@ const BlogForm = ({ createBlog }) => {
         <div>
           <label id="title">title</label>
           <input
+            id="title"
             aria-labelledby="title"
             type="text"
             value={newBlog.title}
@@ -47,6 +48,7 @@ const BlogForm = ({ createBlog }) => {
         <div>
           <label id="author">author</label>
           <input
+            id="author"
             aria-labelledby="author"
             type="text"
             value={newBlog.author}
@@ -62,6 +64,7 @@ const BlogForm = ({ createBlog }) => {
         <div>
           <label id="url">url</label>
           <input
+            id="url"
             aria-labelledby="url"
             type="text"
             value={newBlog.url}
