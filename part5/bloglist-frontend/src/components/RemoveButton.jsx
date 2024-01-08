@@ -3,7 +3,9 @@ const RemoveButton = ({ deleteBlog, blog, user }) => {
   if (blog.user.id === user.id) {
     return (
       <div>
-        <button onClick={() => deleteBlog(blog.id)}>remove</button>
+        <button onClick={() => deleteBlog(blog.id)} id="remove-button">
+          remove
+        </button>
       </div>
     );
   }
