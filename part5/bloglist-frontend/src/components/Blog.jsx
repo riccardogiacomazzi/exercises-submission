@@ -32,7 +32,10 @@ const Blog = ({ blogs, updateBlog, deleteBlog, user }) => {
             <Togglable buttonLabel="info" buttonLabelClose="hide">
               <ul>{blog.url} </ul>
               <ul>
-                Likes: {blog.likes} <button onClick={() => updateBlog(blog.id)}>like</button>
+                Likes: {blog.likes}{" "}
+                <button onClick={() => updateBlog(blog.id)} id="like-button">
+                  like
+                </button>
               </ul>
               <ul>Added by: {blog.user.name} </ul>
               <RemoveButton deleteBlog={deleteBlog} blog={blog} user={user} />

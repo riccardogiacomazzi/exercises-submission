@@ -1,12 +1,23 @@
+import { func } from "prop-types";
+
 describe("Blog app", function () {
   beforeEach(function () {
     cy.request("POST", "http://localhost:3001/api/testing/reset");
-    const initUser = {
+    const firstUser = {
       username: "riccar_dog",
       name: "Riccardo G",
       password: "password",
     };
-    cy.request("POST", "http://localhost:3001/api/users", initUser);
+
+    const secondUser = {
+      username: "alfons_o",
+      name: "Alfonso Radura",
+      password: "password",
+    };
+
+    cy.request("POST", "http://localhost:3001/api/users", firstUser);
+    cy.request("POST", "http://localhost:3001/api/users", secondUser);
+
     cy.visit("http://localhost:5173/");
   });
 
@@ -36,12 +47,32 @@ describe("Blog app", function () {
       cy.get("#login-button").click();
     });
     it("an user can create a new blog", function () {
-      cy.get("#new-blog-togglable").click();
+      cy.get("#togglable-button").click();
       cy.get("#title").type("test_blog title");
       cy.get("#author").type("test_blog author");
       cy.get("#url").type("test_blog url");
       cy.get("#add-blog-button").click();
       cy.contains("test_blog title by test_blog author");
+    });
+  });
+
+  describe("When a blog is created", function () {
+    beforeEach(function () {
+      cy.get("#username").type("riccar_dog");
+      cy.get("#password").type("password");
+      cy.get("#login-button").click();
+      cy.get("#togglable-button").click();
+      cy.get("#title").type("test_blog title");
+      cy.get("#author").type("test_blog author");
+      cy.get("#url").type("test_blog url");
+      cy.get("#add-blog-button").click();
+    });
+
+    it("users can like a blog", function () {
+      cy.get('button:contains("info")').click();
+      cy.contains("Likes: 0");
+      cy.get("#like-button").click();
+      cy.contains("Likes: 1");
     });
   });
 });
