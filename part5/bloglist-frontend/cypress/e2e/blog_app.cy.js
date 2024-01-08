@@ -75,11 +75,20 @@ describe("Blog app", function () {
       cy.contains("Likes: 1");
     });
 
-    it.only("the users who created the entry, can delete it", function () {
+    it("the users who created the entry, can delete it", function () {
       cy.contains("test_blog title by test_blog author");
       cy.get('button:contains("info")').click();
       cy.get("#remove-button").click();
       cy.should("not.contain", "test_blog title by test_blog author");
+    });
+
+    it.only("another user can't delete it", function () {
+      cy.get("#logout-button").click();
+      cy.get("#username").type("alfons_o");
+      cy.get("#password").type("password");
+      cy.get("#login-button").click();
+      cy.get('button:contains("info")').click();
+      cy.get("#remove-button").should("not.exist");
     });
   });
 });
