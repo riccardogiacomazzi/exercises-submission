@@ -28,4 +28,20 @@ describe("Blog app", function () {
       cy.contains("Log in to Blog App");
     });
   });
+
+  describe("When logged in", function () {
+    beforeEach(function () {
+      cy.get("#username").type("riccar_dog");
+      cy.get("#password").type("password");
+      cy.get("#login-button").click();
+    });
+    it("an user can create a new blog", function () {
+      cy.get("#new-blog-togglable").click();
+      cy.get("#title").type("test_blog title");
+      cy.get("#author").type("test_blog author");
+      cy.get("#url").type("test_blog url");
+      cy.get("#add-blog-button").click();
+      cy.contains("test_blog title by test_blog author");
+    });
+  });
 });
