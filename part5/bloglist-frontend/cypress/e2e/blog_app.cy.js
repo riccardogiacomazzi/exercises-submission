@@ -1,23 +1,22 @@
-import { func } from "prop-types";
+const firstUser = {
+  username: "riccar_dog",
+  name: "Riccardo G",
+  password: "password",
+};
+
+const secondUser = {
+  username: "alfons_o",
+  name: "Alfonso Radura",
+  password: "password",
+};
+
+const newBlog = { title: "first blog", author: "first author", url: "www.url1.com" };
 
 describe("Blog app", function () {
   beforeEach(function () {
-    cy.request("POST", "http://localhost:3001/api/testing/reset");
-    const firstUser = {
-      username: "riccar_dog",
-      name: "Riccardo G",
-      password: "password",
-    };
-
-    const secondUser = {
-      username: "alfons_o",
-      name: "Alfonso Radura",
-      password: "password",
-    };
-
-    cy.request("POST", "http://localhost:3001/api/users", firstUser);
-    cy.request("POST", "http://localhost:3001/api/users", secondUser);
-
+    cy.resetDatabase();
+    cy.createUser({ username: firstUser.username, name: firstUser.name, password: firstUser.password });
+    cy.createUser({ username: secondUser.username, name: secondUser.name, password: secondUser.password });
     cy.visit("http://localhost:5173/");
   });
 
@@ -27,45 +26,31 @@ describe("Blog app", function () {
 
   describe("Login", function () {
     it("Succesfully works with correct credentials", function () {
-      cy.get("#username").type("riccar_dog");
-      cy.get("#password").type("password");
-      cy.get("#login-button").click();
+      cy.loginUI({ username: firstUser.username, password: firstUser.password });
       cy.contains("Logged in as");
     });
     it("Doesn't work with wrong credentials", function () {
-      cy.get("#username").type("wrong_username");
-      cy.get("#password").type("wrong_password");
-      cy.get("#login-button").click();
+      cy.loginUI({ username: "wrong_username", password: "wrong_password" });
       cy.contains("Log in to Blog App");
     });
   });
 
   describe("When logged in", function () {
     beforeEach(function () {
-      cy.get("#username").type("riccar_dog");
-      cy.get("#password").type("password");
-      cy.get("#login-button").click();
+      cy.login({ username: firstUser.username, password: firstUser.password });
     });
     it("an user can create a new blog", function () {
       cy.get("#togglable-button").click();
-      cy.get("#title").type("test_blog title");
-      cy.get("#author").type("test_blog author");
-      cy.get("#url").type("test_blog url");
-      cy.get("#add-blog-button").click();
-      cy.contains("test_blog title by test_blog author");
+      cy.createBlog({ title: newBlog.title, author: newBlog.author, url: newBlog.url });
+      cy.contains(`${newBlog.title} by ${newBlog.author}`);
     });
   });
 
   describe("When a blog is created", function () {
     beforeEach(function () {
-      cy.get("#username").type("riccar_dog");
-      cy.get("#password").type("password");
-      cy.get("#login-button").click();
+      cy.login({ username: firstUser.username, password: firstUser.password });
       cy.get("#togglable-button").click();
-      cy.get("#title").type("test_blog title");
-      cy.get("#author").type("test_blog author");
-      cy.get("#url").type("test_blog url");
-      cy.get("#add-blog-button").click();
+      cy.createBlog({ title: newBlog.title, author: newBlog.author, url: newBlog.url });
     });
 
     it("users can like a blog", function () {
@@ -76,17 +61,15 @@ describe("Blog app", function () {
     });
 
     it("the users who created the entry, can delete it", function () {
-      cy.contains("test_blog title by test_blog author");
+      cy.contains(`${newBlog.title} by ${newBlog.author}`);
       cy.get('button:contains("info")').click();
       cy.get("#remove-button").click();
-      cy.should("not.contain", "test_blog title by test_blog author");
+      cy.should("not.contain", `${newBlog.title} by ${newBlog.author}`);
     });
 
-    it.only("another user can't delete it", function () {
+    it("another user can't delete it", function () {
       cy.get("#logout-button").click();
-      cy.get("#username").type("alfons_o");
-      cy.get("#password").type("password");
-      cy.get("#login-button").click();
+      cy.loginUI({ username: secondUser.username, password: secondUser.password });
       cy.get('button:contains("info")').click();
       cy.get("#remove-button").should("not.exist");
     });
